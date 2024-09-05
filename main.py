@@ -6,7 +6,10 @@ from zoneinfo import ZoneInfo
 import funcs as F
 
 
-def get_stations():
+def get_stations() -> None:
+    """
+        Get all stations available and save to a table
+    """
     stations = f'stations'
     base_url = 'https://api.weather.gov'
 
@@ -30,7 +33,10 @@ def get_stations():
     
 
 
-def get_station_info(station_name: str=None):
+def get_station_info(station_name: str=None) -> None:
+    """
+        Get all the information for a particular station and save on table
+    """
     stations = f'stations'
     base_url = 'https://api.weather.gov'
 
@@ -58,7 +64,10 @@ def get_station_info(station_name: str=None):
 
 # 2024-08-03T00:00:00+04:00
 
-def get_observations(station_name: str=None, delta_days: int=7):
+def get_observations(station_name: str=None, delta_days: int=7) -> None:
+    """
+        Get all observation from a specific station
+    """
     stations = f'stations'
     observations = f'observations'
     base_url = 'https://api.weather.gov'
@@ -118,17 +127,19 @@ def get_observations(station_name: str=None, delta_days: int=7):
         print('New data saving on Fact_Observations...')
 
 
-def get_all_tables_data(station_name: str='0007W'):
+def get_all_tables_data(station_name: str='0007W') -> None:
     """
-    Data to get
-    ~ Station Id
-    ~ Station name
-    ~ Station Timezone
-    ~ Latitude/Longitude
-    ~ Observation timestamp
-    ~ Temperature (round to two decimal places)
-    ~ Wind Speed (round to two decimal places)
-    ~ Humidity (round to two decimal places)
+        Data to get
+        ~ Station Id
+        ~ Station name
+        ~ Station Timezone
+        ~ Latitude/Longitude
+        ~ Observation timestamp
+        ~ Temperature (round to two decimal places)
+        ~ Wind Speed (round to two decimal places)
+        ~ Humidity (round to two decimal places)
+
+        Get all data for tables. Station information and observations are for only a specified station.
     """
     get_stations()
     get_station_info(station_name)
@@ -144,11 +155,9 @@ if __name__=='__main__':
     help_delta = 'Se debe ingresar número de días que se requiere desde fecha actual'
     parser_observations.add_argument('-d', '--delta_days', type=int, default=1, help=help_delta)
     parser_observations.add_argument('-l', '--load_all', dest='load_all', action='store_true')
-    # random_parser.add_argument('-r', '--random', dest='random', action='store_true')
-    # random_parser.add_argument('-nr', '--no-random', dest='random', action='store_false')
+
     help_station = 'Se debe ingresar el nombre de la estación a capturar'
     parser.add_argument('-s', '--station_name', type=str, default='0007W', help=help_station)
-    # parser.set_defaults(random=True)
 
     args = parser.parse_args()
 
@@ -158,4 +167,3 @@ if __name__=='__main__':
         if not isinstance(args.delta_days, int):
             raise ValueError('El parámetro debe ser un número')
         get_observations(args.station_name, args.delta_days)
-    # 000PG
